@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  app:
+    build: .
+    volumes:
+      - ./:/var/www
+    container_name: tdd-query-app
+    networks:
+      - tdd_query
+
+  database:
+    image: mysql:5.7.22
+    volumes:
+      - ./database/:/var/lib/mysql
+    ports:
+      - 3306:3306
+    container_name: tdd-query-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_PASSWORD=root
+      - MYSQL_DATABASE=tdd_query
+      - MYSQL_USERNAME=root
+    networks:
+      - tdd_query
+
+networks:
+  tdd_query:
+    driver: bridge
